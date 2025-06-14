@@ -1,12 +1,12 @@
 import com.akshay.automationexecrices.base.BaseTest;
 import com.akshay.automationexecrices.pages.LoginPage;
-import com.akshay.automationexecrices.utils.GoogleSheetManager;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Properties;
 
 public class LoginFlowTest extends BaseTest {
 
@@ -15,17 +15,10 @@ public class LoginFlowTest extends BaseTest {
 
     @Test
     public void validLoginTest() throws Exception {
-
-        // Get login data from Google Sheet
-        List<List<Object>> sheetData = GoogleSheetManager.readSheetData();
-        String usernameFromSheet = sheetData.get(1).get(0).toString();
-        String passwordFromSheet = sheetData.get(1).get(1).toString();
-
-
         logger.info("Test started: validLoginTest");
 
         // Step 1: Open the application URL
-        logger.info("Step 1: Open the application URL: " + properties.getProperty("url"));
+        logger.info("Step 1: Open the application URL: " + util.getProperty("url"));
         LoginPage loginSignupPage = new LoginPage(driver);
 
         // Step 2: Click on the signup/login button
@@ -33,12 +26,12 @@ public class LoginFlowTest extends BaseTest {
         loginSignupPage.clickLoginSignupButton();
 
         // Step 3: Enter username
-        logger.info("Step 3: Enter valid username: " + usernameFromSheet);
-        loginSignupPage.enterLoginEmail(usernameFromSheet);
+        logger.info("Step 3: Enter valid username: " + util.getProperty("username"));
+        loginSignupPage.enterLoginEmail(util.getProperty("username"));
 
         // Step 4: Enter password (hidden in logs)
         logger.info("Step 4: Enter valid password: ****** (hidden for security)");
-        loginSignupPage.enterLoginPassword(passwordFromSheet);
+        loginSignupPage.enterLoginPassword(util.getProperty("password"));
 
         // Step 5: Click on the login button
         logger.info("Step 5: Click on the Login button");
@@ -57,16 +50,8 @@ public class LoginFlowTest extends BaseTest {
     @Test
     public void inValidLoginTest() throws Exception {
         String expectedErrorMessage = "Your email or password is incorrect!";
-
-        logger.info("Test started: inValidLoginTest");
-
-        // Get login data from Google Sheet
-        List<List<Object>> sheetData = GoogleSheetManager.readSheetData();
-        String usernameFromSheet = sheetData.get(2).get(0).toString();
-        String passwordFromSheet = sheetData.get(2).get(1).toString();
-
         // Step 1: Open the application URL
-        logger.info("Step 1: Open the application URL: " + properties.getProperty("url"));
+        logger.info("Step 1: Open the application URL: " + util.getProperty("url"));
         LoginPage loginSignupPage = new LoginPage(driver);
 
         // Step 2: Click on the signup/login button
@@ -74,12 +59,12 @@ public class LoginFlowTest extends BaseTest {
         loginSignupPage.clickLoginSignupButton();
 
         // Step 3: Enter invalid username
-        logger.info("Step 3: Enter invalid username: " + usernameFromSheet);
-        loginSignupPage.enterLoginEmail(usernameFromSheet);
+        logger.info("Step 3: Enter invalid username: " + "testuser");
+        loginSignupPage.enterLoginEmail("testuser@t.com");
 
         // Step 4: Enter invalid password (avoid logging sensitive info, but if necessary, log carefully)
         logger.info("Step 4: Enter invalid password: ****** (hidden for security)");
-        loginSignupPage.enterLoginPassword(passwordFromSheet);
+        loginSignupPage.enterLoginPassword("2122");
 
         // Step 5: Click on the login button
         logger.info("Step 5: Click on the Login button");

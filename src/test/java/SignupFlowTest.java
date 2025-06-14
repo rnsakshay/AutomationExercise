@@ -17,7 +17,7 @@ public class SignupFlowTest extends BaseTest {
     public void signupProcess() throws Exception {
         logger.info("Test started: testUserRegistrationWithRandomData");
         // Step 1: Open the application URL
-        logger.info("Step 1: Open the application URL: " + properties.getProperty("url"));
+        logger.info("Step 1: Open the application URL: " + util.getProperty("url"));
         SignupPage signupPage = new SignupPage(driver);
         LoginPage loginPage = new LoginPage(driver);
 
@@ -27,28 +27,28 @@ public class SignupFlowTest extends BaseTest {
 
         logger.info("Step 3: Initial signup – Entered Name and Email, then clicked on the Signup button");
         // Step 1: Fill name and email
-        logger.info("Name : " + PropertyUtil.get("runtimeName"));
-        logger.info("Email : " + PropertyUtil.get("runtimeEmail"));
+        logger.info("Name : " +util.getProperty("userFirstName") + " " +util.getProperty("userLastName"));
+        logger.info("Email : " + util.getProperty("userEmail"));
         signupPage.fillInitialSignup(
-                PropertyUtil.get("runtimeName"),
-                PropertyUtil.get("runtimeEmail")
+                util.getProperty("userFirstName") + " " +util.getProperty("userLastName"),
+                util.getProperty("userEmail")
         );
 
         logger.info("Step 4: Filled in the remaining registration details (Password, First Name, Last Name, Street, State, City, Zipcode, Mobile)");
         logger.info("===== Runtime Properties =====");
-        logger.info("Name: " + PropertyUtil.get("runtimeName"));
-        logger.info("Email: " + PropertyUtil.get("runtimeEmail"));
+        logger.info("Name: " +util.getProperty("userFirstName") + " " +util.getProperty("userLastName"));
+        logger.info("Email: " + util.getProperty("userEmail"));
         logger.info("Password: ********");
         ;
-        logger.info("First Name: " + PropertyUtil.get("runtimeFirstName"));
-        logger.info("Last Name: " + PropertyUtil.get("runtimeLastName"));
-        logger.info("Street: " + PropertyUtil.get("runtimeStreet"));
-        logger.info("State: " + PropertyUtil.get("runtimeState"));
-        logger.info("City: " + PropertyUtil.get("runtimeCity"));
-        logger.info("Zipcode: " + PropertyUtil.get("runtimeZipcode"));
-        logger.info("Mobile: " + PropertyUtil.get("runtimeMobileNumber"));
+        logger.info("First Name: " + util.getProperty("userFirstName"));
+        logger.info("Last Name: " +util.getProperty("userLastName"));
+        logger.info("Street: " + util.getProperty("userStreet"));
+        logger.info("State: " + util.getProperty("userState"));
+        logger.info("City: " + util.getProperty("userCity"));
+        logger.info("Zipcode: " + util.getProperty("userZipcode"));
+        logger.info("Mobile: " + util.getProperty("userMobileNumber"));
         logger.info("===== End Runtime Properties =====");
-        signupPage.fillDetailsFormAndLogToSheet();
+        signupPage.fillDetailsFormAndLog();
 
         logger.info("Step 5: Verified account creation by checking the confirmation message.");
         String confirmation = signupPage.getConfirmationMessage();
@@ -62,7 +62,7 @@ public class SignupFlowTest extends BaseTest {
         String actualLoggedInUserText = loginPage.getLoggedInUsername();
         logger.info("Step 7: Validated logged-in user"+ actualLoggedInUserText);
 
-        Assert.assertEquals(actualLoggedInUserText, EXPECTED_LOGGED_USER_TITLE+PropertyUtil.get("runtimeName"), "Logged-in username mismatch!");
+        Assert.assertEquals(actualLoggedInUserText, EXPECTED_LOGGED_USER_TITLE+util.getProperty("userFirstName") +" "+ util.getProperty("userLastName"), "Logged-in username mismatch!");
 
         signupPage.deletionAccount();
         logger.info("Step 8: Verified account deletion by checking the confirmation message.");
