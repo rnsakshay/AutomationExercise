@@ -12,15 +12,13 @@ import java.util.Properties;
 
 public class BaseTest {
     protected WebDriver driver;
-    protected Properties properties;
+    protected static PropertyUtil util;
 
     @BeforeMethod
     public void setUp(){
-        properties = ConfigReader.initProp();
-        generateAndSetRuntimeData();
-
-        driver = DriverManager.initDriver(properties.getProperty("browser"));
-        driver.get(properties.getProperty("url"));
+        util = PropertyUtil.getInstance("config/config.properties");
+        driver = DriverManager.initDriver(util.getProperty("browser"));
+        driver.get(util.getProperty("url"));
         driver.manage().window().maximize();
     }
 
@@ -30,21 +28,4 @@ public class BaseTest {
            // driver.quit();
         }
     }
-
-    private void generateAndSetRuntimeData() {
-        String name = CommonMethods.getName();
-        PropertyUtil.set("runtimeName", name);
-
-        String[] nameParts = name.split(" ");
-        PropertyUtil.set("runtimeFirstName", nameParts[0]);
-        PropertyUtil.set("runtimeLastName", nameParts.length > 1 ? nameParts[1] : "");
-
-        PropertyUtil.set("runtimeEmail", CommonMethods.getEmail());
-        PropertyUtil.set("runtimePassword", CommonMethods.getPassword());
-        PropertyUtil.set("runtimeState", CommonMethods.getState());
-        PropertyUtil.set("runtimeCity", CommonMethods.getCity());
-        PropertyUtil.set("runtimeStreet", CommonMethods.getStreet());
-        PropertyUtil.set("runtimeMobileNumber", CommonMethods.getPhone());
-    }
-
 }
