@@ -14,9 +14,6 @@ public class LoginPage {
     WebDriver driver;
     WebDriverWait wait;
 
-    @FindBy(xpath = "//ul[@class='nav navbar-nav']/li/a[contains(text(),'Signup / Login')]")
-    private WebElement loginSignupBtn;
-
     @FindBy(xpath = "//form[@action='/login']/input[@name='email']")
     private WebElement inputLoginEmail;
 
@@ -26,20 +23,19 @@ public class LoginPage {
     @FindBy(xpath = "//button[contains(text(),'Login')]")
     private WebElement loginBtn;
 
-    @FindBy(xpath = "//ul[@class='nav navbar-nav']/li[10]/a")
-    private WebElement loggedInUsername;
-
     @FindBy(xpath = "//form/p[contains(text(),'Your email or password is incorrect!')]")
     WebElement loginErrorMessage;
+
+    @FindBy(xpath = "//ul/li/a[contains(text(),' Logout')]")
+    WebElement logoutBtn;
+
+    @FindBy(xpath = "//h2[contains(text(),'Login to your account')]")
+    WebElement loginText;
 
     public LoginPage(WebDriver driver){
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         PageFactory.initElements(driver, this);
-    }
-
-    public void clickLoginSignupButton(){
-        wait.until(ExpectedConditions.elementToBeClickable(loginSignupBtn)).click();
     }
 
     public void enterLoginEmail(String name){
@@ -58,11 +54,16 @@ public class LoginPage {
         wait.until(ExpectedConditions.elementToBeClickable(loginBtn)).click();
     }
 
-    public String getLoggedInUsername(){
-        return loggedInUsername.getText();
-    }
-
     public String getLoginErrorMsg(){
         return  loginErrorMessage.getText();
+    }
+
+    public void clickLogout(){
+        wait.until(ExpectedConditions.elementToBeClickable(logoutBtn)).click();
+    }
+
+    public String loginTitle(){
+        wait.until(ExpectedConditions.visibilityOf(loginText));
+        return loginText.getText();
     }
 }
