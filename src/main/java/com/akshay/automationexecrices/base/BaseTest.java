@@ -8,8 +8,6 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
 
 public class BaseTest {
@@ -39,9 +37,8 @@ public class BaseTest {
         // Create ExtentTest instance for current test
         ExtentTest extentTest = extent.createTest(method.getName());
         test.set(extentTest);
-        // ✅ Log the browser mode from DriverManager
+        // Log the browser mode from DriverManager
         test.get().info("Browser Mode: " + DriverManager.getBrowserMode());
-       // test.get().info("✅ Headless mode (from config): " + util.getProperty("headless"));
     }
 
     @AfterMethod
@@ -60,12 +57,10 @@ public class BaseTest {
     }
 
     @AfterSuite
-    public void flushReport() throws InterruptedException, IOException {
-            // 1. Flush the Extent Report
-            if (BaseTest.extent != null) {
-                BaseTest.extent.flush();
-
-            }
-
+    public void flushReport() {
+        // Flush the Extent Report
+        if (BaseTest.extent != null) {
+            BaseTest.extent.flush();
+        }
     }
 }
