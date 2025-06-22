@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="AutomationExercise Test Suite" verbose="2" parallel="false" thread-count="1">
+
+    <!-- Suite-level parameters -->
+    <parameter name="browser" value="chrome"/>
+    <parameter name="environment" value="QA"/>
+
+    <!-- Listeners for enhanced reporting -->
+    <listeners>
+        <!-- Add custom listeners here if needed -->
+    </listeners>
+
+    <!-- Smoke Test Suite - Critical functionality -->
+    <test name="Smoke Tests" preserve-order="true" enabled="true">
+        <classes>
+            <class name="HomePageTest">
+                <methods>
+                    <include name="verifyHomePageTitle"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <!-- Regression Test Suite - Complete functionality -->
+    <test name="Regression Tests" preserve-order="true" enabled="true">
+        <classes>
+            <class name="LoginFlowTest">
+                <methods>
+                    <include name="verify_LoginSuccessfullyWithValidCredentials"/>
+                    <include name="verify_ShowErrorOnInvalidCredentials"/>
+                </methods>
+            </class>
+            <class name="SignupFlowTest">
+                <methods>
+                    <include name="verify_RegisterAndDeleteAccountSuccessfully"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>

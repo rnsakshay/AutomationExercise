@@ -29,9 +29,6 @@ public class LoginPage {
     @FindBy(xpath = "//ul/li/a[contains(text(),' Logout')]")
     WebElement logoutBtn;
 
-    @FindBy(xpath = "//h2[contains(text(),'Login to your account')]")
-    WebElement loginText;
-
     public LoginPage(WebDriver driver){
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -60,10 +57,5 @@ public class LoginPage {
 
     public void clickLogout(){
         wait.until(ExpectedConditions.elementToBeClickable(logoutBtn)).click();
-    }
-
-    public String loginTitle(){
-        wait.until(ExpectedConditions.visibilityOf(loginText));
-        return loginText.getText();
     }
 }
